@@ -1,4 +1,4 @@
-package main
+package qm
 
 import (
 	"fmt"
