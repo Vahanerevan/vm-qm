@@ -44,6 +44,22 @@ const (
 	DESC        = "DESC"
 )
 
+type OrderBy string
+
+func (o OrderBy) DESC() string {
+	return fmt.Sprintf("%s %s", string(o), DESC)
+}
+
+func (o OrderBy) ASC() string {
+	return fmt.Sprintf("%s %s", string(o), ASC)
+}
+
+func (o OrderBy) String() string {
+	return string(o)
+}
+
+
+
 type BoolField string
 
 type NullBoolFieldField string
