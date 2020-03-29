@@ -5,10 +5,6 @@ import (
 	"strings"
 )
 
-
-
-
-
 type Operand string
 
 const (
@@ -33,6 +29,12 @@ func Sqlize(col string, op Operand, placeholders ...string) string {
 	return fmt.Sprintf("%s %s ?", col, op)
 }
 
+func SqlizeValueWithoutAlias(col string, op Operand, value interface{}) (string, interface{}) {
+	colValues := strings.Split(col, ".")
+	v := colValues[len(colValues)-1]
+	return fmt.Sprintf("%s %s ?", v, op), value
+}
+
 func SqlizeValue(col string, op Operand, value interface{}) (string, interface{}) {
 	return fmt.Sprintf("%s %s ?", col, op), value
 }
@@ -41,8 +43,6 @@ const (
 	ASC  string = "ASC"
 	DESC        = "DESC"
 )
-
-
 
 type OrderBy string
 
@@ -242,6 +242,7 @@ func (f NullIntFieldField) Equals(v *int) (string, interface{}) {
 func (f IntField) GreaterThan(v int) (string, interface{}) {
 	return SqlizeValue(string(f), OpGreater, v)
 }
+
 func (f NullIntFieldField) GreaterThan(v *int) (string, interface{}) {
 	return SqlizeValue(string(f), OpGreater, v)
 }
